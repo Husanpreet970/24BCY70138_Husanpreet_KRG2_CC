@@ -1,0 +1,16 @@
+class Solution(object):
+    def minSubarray(self, nums, p):
+        total = sum(nums)
+        remainder = total % p
+        if remainder == 0:
+            return 0
+        prefix = 0
+        res = len(nums)
+        mod_map = {0: -1}
+        for i, num in enumerate(nums):
+            prefix = (prefix + num) % p
+            need = (prefix - remainder + p) % p
+            if need in mod_map:
+                res = min(res, i - mod_map[need])
+            mod_map[prefix] = i
+        return res if res < len(nums) else -1
