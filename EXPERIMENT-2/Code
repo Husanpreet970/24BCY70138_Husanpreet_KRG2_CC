@@ -1,0 +1,30 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    int ones = 0;
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+        if (a[i] == 1) ones++;
+    }
+    vector<int> b(n);
+    for (int i = 0; i < n; i++) {
+        if (a[i] == 0) b[i] = 1;
+        else b[i] = -1;
+    }
+    // Kadane's Algorithm
+    int max_sum = b[0], current_sum = b[0];
+    for (int i = 1; i < n; i++) {
+        current_sum = max(b[i], current_sum + b[i]);
+        max_sum = max(max_sum, current_sum);
+    }
+    if (max_sum <= 0) {
+        cout << n - 1 << endl;
+    } else {
+        cout << ones + max_sum << endl;
+    }
+    return 0;
+}
