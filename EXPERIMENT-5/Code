@@ -1,0 +1,29 @@
+class Solution {
+public:
+    static const int MOD = 1e9 + 7;
+    long long gcdvalue(long long x, long long y) {
+        while (y != 0) {
+            long long temp = x % y;
+            x = y;
+            y = temp;
+        }
+        return x;
+    }
+    int nthMagicalNumber(int n, int a, int b) {
+        long long A = a, B = b;
+        long long g = gcdvalue(A, B);
+        long long lcm = A / g * B;   
+        long long left = 1;
+        long long right = (long long)n * min(A, B);
+        while (left < right) {
+            long long mid = left + (right - left) / 2;
+            long long count_value = mid / A + mid / B - mid / lcm;
+            if (count_value >= n) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return (int)(left % MOD);
+    }
+};
